@@ -27,7 +27,33 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
+            List<CartLine> cartLineList = GetCartLineList();
             // TODO implement the method
+            // the code added 
+            if(cartLineList.Exists(x => x.Product == product))
+            {
+                foreach(CartLine line in cartLineList)
+                {
+                    if(line.Product == product)
+                    {
+                        line.Quantity += quantity;
+                    }
+                }
+
+            }
+            else
+            {
+                cartLineList.Add(new CartLine()
+                {
+                    Product = product,
+                    Quantity = quantity,
+                    OrderLineId = cartLineList.Count + 1
+
+                });
+
+            }
+
+
         }
 
         /// <summary>
