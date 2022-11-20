@@ -11,6 +11,9 @@ namespace P2FixAnAppDotNetCode.Models
         /// <summary>
         /// Read-only property for dispaly only
         /// </summary>
+        /// 
+        private List<CartLine> _Lines = new List<CartLine>();
+      
         public IEnumerable<CartLine> Lines => GetCartLineList();
 
         /// <summary>
@@ -19,7 +22,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// <returns></returns>
         private List<CartLine> GetCartLineList()
         {
-            return new List<CartLine>();
+            return _Lines;
         }
 
         /// <summary>
@@ -27,33 +30,38 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
-            List<CartLine> cartLineList = GetCartLineList();
-            // TODO implement the method
-            // the code added 
-            if(cartLineList.Exists(x => x.Product == product))
+            if(_Lines.Exists(x => x.Product.Id == product.Id))
             {
-                foreach(CartLine line in cartLineList)
+                foreach(CartLine line in _Lines)
                 {
-                    if(line.Product == product)
+                    if(line.Product.Id == product.Id)
                     {
                         line.Quantity += quantity;
                     }
                 }
-
             }
             else
             {
-                cartLineList.Add(new CartLine()
+                _Lines.Add(new CartLine()
                 {
                     Product = product,
                     Quantity = quantity,
-                    OrderLineId = cartLineList.Count + 1
-
-                });
-
+                    OrderLineId = _Lines.Count() + 1
+                }) ;
             }
 
-
+            // TODO implement the method
+            //_Lines.Add(new CartLine()
+            //{
+            //    Product = product,
+            //    Quantity = quantity,
+            //    OrderLineId = _Lines.Count + 1
+            //});
+        
+            
+        
+            
+           
         }
 
         /// <summary>
